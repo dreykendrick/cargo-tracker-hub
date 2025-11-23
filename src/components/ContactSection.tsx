@@ -29,13 +29,13 @@ export const ContactSection = () => {
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {contacts.map((contact, index) => {
             const Icon = contact.icon;
             return (
               <div
                 key={index}
-                className="flex gap-4 rounded-2xl bg-white/5 p-6 transition-all hover:translate-x-2 hover:bg-white/10"
+                className="flex gap-6 rounded-2xl bg-white/5 p-8 transition-all hover:translate-x-2 hover:bg-white/10"
               >
                 <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-primary">
                   <Icon className="h-6 w-6" />
