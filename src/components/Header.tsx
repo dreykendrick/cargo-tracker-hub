@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, UserCircle } from "lucide-react";
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,6 +56,7 @@ export const Header = () => {
             <li>
               <Button
                 size="sm"
+                onClick={() => navigate("/auth")}
                 className="gap-2 rounded-full bg-primary font-semibold shadow-lg hover:bg-primary-accent"
               >
                 <UserCircle className="h-4 w-4" />
@@ -89,6 +92,10 @@ export const Header = () => {
               <li>
                 <Button
                   size="sm"
+                  onClick={() => {
+                    navigate("/auth");
+                    setIsMobileMenuOpen(false);
+                  }}
                   className="gap-2 rounded-full bg-primary font-semibold shadow-lg hover:bg-primary-accent w-full"
                 >
                   <UserCircle className="h-4 w-4" />
