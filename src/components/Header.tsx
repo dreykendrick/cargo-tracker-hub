@@ -36,10 +36,10 @@ export const Header = () => {
         className="rounded-3xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-2xl transition-all"
         style={{ background: "var(--glass-bg)", borderColor: "var(--glass-border)" }}
       >
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-8 py-4">
-          <div className="text-2xl font-bold text-white drop-shadow-lg">
-            HQ LOGISTICS
-          </div>
+         <nav>
+            <div class="logo">
+                <img src="image/image 8.png" alt="HQ Logistics">
+            </div>
 
           {/* Desktop Navigation */}
           <ul className="hidden items-center gap-6 lg:flex">
