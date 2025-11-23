@@ -7,11 +7,6 @@ const contacts = [
     info: "Dar es Salaam Port Area, Tanzania",
   },
   {
-    icon: Warehouse,
-    title: "Dry Port",
-    info: "Dry Port Facility, Dar es Salaam",
-  },
-  {
     icon: Mail,
     title: "Email",
     info: "info@hqlogistics.co.tz",
