@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, UserCircle } from "lucide-react";
 
@@ -7,6 +7,22 @@ export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (href: string) => {
+    if (location.pathname !== "/") {
+      // Navigate to home page first, then scroll
+      navigate("/");
+      setTimeout(() => {
+        const element = document.querySelector(href);
+        element?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      // Already on home page, just scroll
+      const element = document.querySelector(href);
+      element?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,12 +66,12 @@ export const Header = () => {
           <ul className="hidden items-center gap-6 lg:flex">
             {navLinks.map((link) => (
               <li key={link.href}>
-                <a
-                  href={link.href}
+                <button
+                  onClick={() => handleNavClick(link.href)}
                   className="text-sm font-semibold text-white/95 transition-colors hover:text-primary drop-shadow-md"
                 >
                   {link.label}
-                </a>
+                </button>
               </li>
             ))}
             <li>
@@ -85,13 +101,15 @@ export const Header = () => {
             <ul className="flex flex-col gap-4 p-8">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
+                  <button
+                    onClick={() => {
+                      handleNavClick(link.href);
+                      setIsMobileMenuOpen(false);
+                    }}
                     className="text-sm font-semibold text-white/95 transition-colors hover:text-primary"
-                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}
-                  </a>
+                  </button>
                 </li>
               ))}
               <li>
