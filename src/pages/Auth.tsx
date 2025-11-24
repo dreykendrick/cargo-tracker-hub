@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,47 +8,44 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2, UserCircle } from "lucide-react";
+import { z } from "zod";
+
+const authSchema = z.object({
+  email: z.string().trim().email({ message: "Invalid email address" }).max(255),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }).max(100),
+});
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is already logged in
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate("/portal");
+    if (user) {
+      navigate("/portal");
+    }
+  }, [user, navigate]);
+
+  const validateInput = () => {
+    try {
+      authSchema.parse({ email, password });
+      return true;
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        toast.error(err.errors[0].message);
       }
-    };
-    checkSession();
-  }, [navigate]);
+      return false;
+    }
+  };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!email || !password) {
-      toast.error("Please fill in all fields");
-      return;
-    }
-
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters");
-      return;
-    }
+    if (!validateInput()) return;
 
     setLoading(true);
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/portal`,
-      },
-    });
-
+    const { error } = await signUp(email, password);
     setLoading(false);
 
     if (error) {
@@ -58,26 +55,16 @@ const Auth = () => {
         toast.error(error.message);
       }
     } else {
-      toast.success("Account created successfully! Redirecting to portal...");
-      navigate("/portal");
+      toast.success("Account created successfully!");
     }
   };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!email || !password) {
-      toast.error("Please fill in all fields");
-      return;
-    }
+    if (!validateInput()) return;
 
     setLoading(true);
-    
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
+    const { error } = await signIn(email, password);
     setLoading(false);
 
     if (error) {
@@ -88,7 +75,6 @@ const Auth = () => {
       }
     } else {
       toast.success("Signed in successfully!");
-      navigate("/portal");
     }
   };
 
@@ -121,6 +107,7 @@ const Auth = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
                     required
+                    maxLength={255}
                   />
                 </div>
                 <div className="space-y-2">
@@ -133,6 +120,8 @@ const Auth = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     disabled={loading}
                     required
+                    minLength={6}
+                    maxLength={100}
                   />
                 </div>
                 <Button
@@ -164,6 +153,7 @@ const Auth = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
                     required
+                    maxLength={255}
                   />
                 </div>
                 <div className="space-y-2">
@@ -177,6 +167,7 @@ const Auth = () => {
                     disabled={loading}
                     required
                     minLength={6}
+                    maxLength={100}
                   />
                   <p className="text-xs text-muted-foreground">
                     Password must be at least 6 characters
