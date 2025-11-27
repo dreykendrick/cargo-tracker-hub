@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 interface NewsItem {
@@ -61,12 +62,12 @@ export const NewsSection = () => {
                 </div>
                 <h3 className="mb-3 text-xl font-bold">{article.title}</h3>
                 <p className="mb-4 leading-relaxed text-muted-foreground">{article.excerpt}</p>
-                <a
-                  href="#"
+                <Link
+                  to={`/news/${article.id}`}
                   className="inline-flex items-center gap-2 font-semibold text-primary transition-all hover:gap-3"
                 >
                   Read More <ArrowRight className="h-4 w-4" />
-                </a>
+                </Link>
               </div>
             </div>
           ))}
