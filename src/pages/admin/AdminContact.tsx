@@ -200,10 +200,10 @@ const AdminContact = () => {
                 <CardTitle className="flex items-center justify-between">
                   {contact.title}
                   <div className="flex gap-2">
-                    <Button variant="ghost" size="icon" onClick={() => handleEdit(contact)}>
+                    <Button size="sm" variant="outline" onClick={() => handleEdit(contact)}>
                       <Pencil className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(contact.id)}>
+                    <Button size="sm" variant="destructive" onClick={() => handleDelete(contact.id)}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>

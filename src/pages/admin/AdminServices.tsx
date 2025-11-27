@@ -217,10 +217,10 @@ const AdminServices = () => {
                 <CardTitle className="flex items-center justify-between">
                   {service.title}
                   <div className="flex gap-2">
-                    <Button variant="ghost" size="icon" onClick={() => handleEdit(service)}>
+                    <Button size="sm" variant="outline" onClick={() => handleEdit(service)}>
                       <Pencil className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(service.id)}>
+                    <Button size="sm" variant="destructive" onClick={() => handleDelete(service.id)}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>

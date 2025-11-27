@@ -210,10 +210,10 @@ const AdminJobs = () => {
                     )}
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="ghost" size="icon" onClick={() => handleEdit(job)}>
+                    <Button size="sm" variant="outline" onClick={() => handleEdit(job)}>
                       <Pencil className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(job.id)}>
+                    <Button size="sm" variant="destructive" onClick={() => handleDelete(job.id)}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
