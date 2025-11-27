@@ -189,10 +189,10 @@ const AdminTeam = () => {
                 <CardTitle className="flex items-center justify-between">
                   {member.name}
                   <div className="flex gap-2">
-                    <Button variant="ghost" size="icon" onClick={() => handleEdit(member)}>
+                    <Button size="sm" variant="outline" onClick={() => handleEdit(member)}>
                       <Pencil className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(member.id)}>
+                    <Button size="sm" variant="destructive" onClick={() => handleDelete(member.id)}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
