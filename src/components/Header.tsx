@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, UserCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [logoUrl, setLogoUrl] = useState("/image/image8.png");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -32,6 +34,22 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const fetchLogo = async () => {
+      const { data } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "logo_url")
+        .maybeSingle();
+
+      if (data?.value) {
+        setLogoUrl(data.value);
+      }
+    };
+
+    fetchLogo();
+  }, []);
+
   const navLinks = [
     { href: "#home", label: "Home" },
     { href: "#tracking", label: "Track Cargo" },
@@ -56,7 +74,7 @@ export const Header = () => {
           {/* LOGO */}
           <div className="logo">
             <img
-              src="/image/image8.png"
+              src={logoUrl}
               alt="HQ Logistics"
               className="h-12 w-auto"
             />
