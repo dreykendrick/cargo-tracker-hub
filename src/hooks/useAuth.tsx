@@ -41,8 +41,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     );
 
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    // Check for existing session and validate it
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (session) {
+        // Verify session is still valid by making a test request
+        const { error } = await supabase.auth.getUser();
+        if (error) {
+          // Session is stale, clear it
+          await supabase.auth.signOut();
+          setSession(null);
+          setUser(null);
+          setIsAdmin(false);
+          setLoading(false);
+          return;
+        }
+      }
+      
       setSession(session);
       setUser(session?.user ?? null);
       
