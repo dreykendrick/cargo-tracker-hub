@@ -48,13 +48,24 @@ export const ServicesSection = () => {
             return (
               <div
                 key={index}
-                className="group rounded-3xl bg-muted p-8 transition-all hover:-translate-y-2 hover:bg-card hover:shadow-2xl"
+                className="group flex flex-col rounded-3xl bg-muted p-8 transition-all hover:-translate-y-2 hover:bg-card hover:shadow-2xl"
               >
                 <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 transition-all group-hover:scale-110 group-hover:rotate-6 group-hover:bg-primary">
                   <Icon className="h-8 w-8 text-primary transition-colors group-hover:text-white" />
                 </div>
                 <h3 className="mb-3 text-xl font-bold">{service.title}</h3>
-                <p className="leading-relaxed text-muted-foreground">{service.description}</p>
+                <p className="mb-4 flex-1 leading-relaxed text-muted-foreground">{service.description}</p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full rounded-full"
+                  onClick={() => {
+                    const contactSection = document.getElementById("contact");
+                    contactSection?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  Get a Quote
+                </Button>
               </div>
             );
           })}

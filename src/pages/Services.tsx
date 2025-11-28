@@ -1,6 +1,8 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Button } from "@/components/ui/button";
 import { Truck, Package, Warehouse, FileText, Ship, Plane, MapPin } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const allServices = [
   {
@@ -62,6 +64,16 @@ const allServices = [
 ];
 
 const Services = () => {
+  const navigate = useNavigate();
+
+  const handleGetQuote = () => {
+    navigate("/#contact");
+    setTimeout(() => {
+      const contactSection = document.getElementById("contact");
+      contactSection?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -87,7 +99,7 @@ const Services = () => {
               return (
                 <div
                   key={index}
-                  className="group rounded-3xl bg-card border border-border p-8 transition-all hover:-translate-y-2 hover:shadow-2xl"
+                  className="group flex flex-col rounded-3xl bg-card border border-border p-8 transition-all hover:-translate-y-2 hover:shadow-2xl"
                 >
                   <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 transition-all group-hover:scale-110 group-hover:rotate-6 group-hover:bg-primary">
                     <Icon className="h-8 w-8 text-primary transition-colors group-hover:text-primary-foreground" />
@@ -95,7 +107,7 @@ const Services = () => {
                   <h3 className="mb-3 text-xl font-bold">{service.title}</h3>
                   <p className="mb-4 leading-relaxed text-muted-foreground">{service.description}</p>
                   
-                  <ul className="space-y-2">
+                  <ul className="mb-6 flex-1 space-y-2">
                     {service.features.map((feature, idx) => (
                       <li key={idx} className="flex items-center gap-2 text-sm text-muted-foreground">
                         <div className="h-1.5 w-1.5 rounded-full bg-primary" />
@@ -103,6 +115,14 @@ const Services = () => {
                       </li>
                     ))}
                   </ul>
+                  
+                  <Button
+                    variant="outline"
+                    className="w-full rounded-full"
+                    onClick={handleGetQuote}
+                  >
+                    Get a Quote
+                  </Button>
                 </div>
               );
             })}
