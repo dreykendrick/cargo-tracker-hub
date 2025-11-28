@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Label } from "@/components/ui/label";
 
 interface SiteSetting {
   id: string;
@@ -20,6 +21,8 @@ const AdminSettings = () => {
   const { toast } = useToast();
   const [settings, setSettings] = useState<Record<string, string>>({});
   const [logoUrl, setLogoUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -50,7 +53,7 @@ const AdminSettings = () => {
     }
   };
 
-  const handleSaveLogo = async () => {
+  const handleSaveLogo = async (url: string = logoUrl) => {
     const { data: existingLogo } = await supabase
       .from("site_settings")
       .select("id")
@@ -61,12 +64,12 @@ const AdminSettings = () => {
     if (existingLogo) {
       ({ error } = await supabase
         .from("site_settings")
-        .update({ value: logoUrl })
+        .update({ value: url })
         .eq("key", "logo_url"));
     } else {
       ({ error } = await supabase
         .from("site_settings")
-        .insert({ key: "logo_url", value: logoUrl }));
+        .insert({ key: "logo_url", value: url }));
     }
 
     if (error) {
@@ -75,6 +78,39 @@ const AdminSettings = () => {
       toast({ title: "Success", description: "Logo updated successfully" });
       fetchSettings();
     }
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast({ title: "Error", description: "Please select an image file", variant: "destructive" });
+      return;
+    }
+
+    setUploading(true);
+    const fileExt = file.name.split(".").pop();
+    const fileName = `logo-${Date.now()}.${fileExt}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("logos")
+      .upload(fileName, file, { upsert: true });
+
+    if (uploadError) {
+      toast({ title: "Error", description: "Failed to upload logo", variant: "destructive" });
+      setUploading(false);
+      return;
+    }
+
+    const { data: publicUrlData } = supabase.storage
+      .from("logos")
+      .getPublicUrl(fileName);
+
+    const publicUrl = publicUrlData.publicUrl;
+    setLogoUrl(publicUrl);
+    await handleSaveLogo(publicUrl);
+    setUploading(false);
   };
 
   if (loading) {
@@ -98,18 +134,42 @@ const AdminSettings = () => {
               <CardDescription>Update the site logo URL</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Input
-                placeholder="Logo URL"
-                value={logoUrl}
-                onChange={(e) => setLogoUrl(e.target.value)}
-              />
+              <div className="space-y-2">
+                <Label>Upload from device</Label>
+                <div className="flex gap-2">
+                  <Input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    className="cursor-pointer"
+                  />
+                </div>
+                {uploading && <p className="text-sm text-muted-foreground">Uploading...</p>}
+              </div>
+              
+              <div className="relative flex items-center">
+                <div className="flex-grow border-t border-muted"></div>
+                <span className="mx-4 text-sm text-muted-foreground">or</span>
+                <div className="flex-grow border-t border-muted"></div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Logo URL</Label>
+                <Input
+                  placeholder="Enter logo URL"
+                  value={logoUrl}
+                  onChange={(e) => setLogoUrl(e.target.value)}
+                />
+                <Button onClick={() => handleSaveLogo()}>Save URL</Button>
+              </div>
+
               {logoUrl && (
                 <div className="border rounded p-4">
                   <p className="text-sm text-muted-foreground mb-2">Preview:</p>
                   <img src={logoUrl} alt="Logo preview" className="h-12" />
                 </div>
               )}
-              <Button onClick={handleSaveLogo}>Save Logo</Button>
             </CardContent>
           </Card>
         </div>
