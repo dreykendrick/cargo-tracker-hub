@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner";
 import { ArrowLeft, Plus, Pencil, Trash2, Upload } from "lucide-react";
 
@@ -189,13 +190,17 @@ const AdminNews = () => {
                 Add News
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-h-[90vh] flex flex-col">
               <DialogHeader>
                 <DialogTitle>{editingItem ? "Edit News" : "Add News"}</DialogTitle>
+                <DialogDescription>
+                  Fill in the details below to {editingItem ? "update" : "create"} a news article.
+                </DialogDescription>
               </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Title</Label>
+              <ScrollArea className="flex-1 pr-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="title">Title</Label>
                   <Input
                     id="title"
                     value={formData.title}
@@ -271,15 +276,16 @@ const AdminNews = () => {
                     )}
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button type="submit" className="flex-1" disabled={isUploading}>
-                    {editingItem ? "Update" : "Create"}
-                  </Button>
-                  <Button type="button" variant="outline" onClick={resetForm}>
-                    Cancel
-                  </Button>
-                </div>
-              </form>
+                  <div className="flex gap-2 pt-2">
+                    <Button type="submit" className="flex-1" disabled={isUploading}>
+                      {editingItem ? "Update" : "Create"}
+                    </Button>
+                    <Button type="button" variant="outline" onClick={resetForm}>
+                      Cancel
+                    </Button>
+                  </div>
+                </form>
+              </ScrollArea>
             </DialogContent>
           </Dialog>
         </div>
