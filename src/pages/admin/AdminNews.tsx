@@ -15,6 +15,7 @@ interface NewsItem {
   id: string;
   title: string;
   excerpt: string;
+  content: string | null;
   date: string;
   image_url: string | null;
 }
@@ -29,6 +30,7 @@ const AdminNews = () => {
   const [formData, setFormData] = useState({
     title: "",
     excerpt: "",
+    content: "",
     date: new Date().toISOString().split("T")[0],
     image_url: "",
   });
@@ -111,6 +113,7 @@ const AdminNews = () => {
     setFormData({
       title: item.title,
       excerpt: item.excerpt,
+      content: item.content || "",
       date: item.date,
       image_url: item.image_url || "",
     });
@@ -121,6 +124,7 @@ const AdminNews = () => {
     setFormData({
       title: "",
       excerpt: "",
+      content: "",
       date: new Date().toISOString().split("T")[0],
       image_url: "",
     });
@@ -201,14 +205,25 @@ const AdminNews = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="excerpt">Excerpt</Label>
+                  <Label htmlFor="excerpt">Excerpt (Short intro for homepage)</Label>
                   <Textarea
                     id="excerpt"
                     value={formData.excerpt}
                     onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                     required
                     maxLength={500}
-                    rows={3}
+                    rows={2}
+                    placeholder="Brief summary shown on homepage..."
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="content">Full Content</Label>
+                  <Textarea
+                    id="content"
+                    value={formData.content}
+                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                    rows={6}
+                    placeholder="Full article content shown on detail page..."
                   />
                 </div>
                 <div className="space-y-2">
