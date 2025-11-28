@@ -74,13 +74,6 @@ const NewsDetail = () => {
       <Header />
       
       <article className="container mx-auto max-w-4xl px-8 py-20">
-        <Link to="/" className="mb-8 inline-block">
-          <Button variant="outline">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Home
-          </Button>
-        </Link>
-
         <div className="mb-6 text-sm font-semibold text-primary">
           {new Date(news.date).toLocaleDateString('en-US', {
             month: 'long',
