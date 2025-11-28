@@ -190,14 +190,14 @@ const AdminNews = () => {
                 Add News
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-h-[90vh] flex flex-col">
-              <DialogHeader>
+            <DialogContent className="max-h-[90vh] overflow-hidden">
+              <DialogHeader className="flex-shrink-0">
                 <DialogTitle>{editingItem ? "Edit News" : "Add News"}</DialogTitle>
                 <DialogDescription>
                   Fill in the details below to {editingItem ? "update" : "create"} a news article.
                 </DialogDescription>
               </DialogHeader>
-              <ScrollArea className="flex-1 pr-4">
+              <ScrollArea className="max-h-[calc(90vh-140px)] pr-4">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="title">Title</Label>
