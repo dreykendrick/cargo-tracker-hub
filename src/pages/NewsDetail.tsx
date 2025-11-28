@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -19,7 +19,6 @@ interface NewsItem {
 
 const NewsDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [news, setNews] = useState<NewsItem | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -113,15 +112,16 @@ const NewsDetail = () => {
 
       <article className={`container mx-auto max-w-3xl px-8 ${news.image_url ? "-mt-32 relative z-10" : "pt-32"}`}>
         {/* Back Button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => navigate(-1)}
-          className="mb-8 -ml-2 text-muted-foreground hover:text-foreground"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
+        <Link to="/#news">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mb-8 -ml-2 text-muted-foreground hover:text-foreground"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to News
+          </Button>
+        </Link>
 
         {/* Article Header */}
         <header className="mb-12">
