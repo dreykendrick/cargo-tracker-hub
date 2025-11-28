@@ -10,6 +10,7 @@ interface NewsItem {
   id: string;
   title: string;
   excerpt: string;
+  content: string | null;
   date: string;
   image_url: string | null;
 }
@@ -94,7 +95,12 @@ const NewsDetail = () => {
         )}
 
         <div className="prose prose-lg max-w-none">
-          <p className="text-lg leading-relaxed text-foreground">{news.excerpt}</p>
+          <p className="mb-6 text-xl leading-relaxed text-muted-foreground">{news.excerpt}</p>
+          {news.content && (
+            <div className="whitespace-pre-wrap text-lg leading-relaxed text-foreground">
+              {news.content}
+            </div>
+          )}
         </div>
       </article>
 

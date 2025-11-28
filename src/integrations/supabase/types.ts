@@ -82,6 +82,7 @@ export type Database = {
       }
       news: {
         Row: {
+          content: string | null
           created_at: string | null
           date: string
           excerpt: string
@@ -91,6 +92,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          content?: string | null
           created_at?: string | null
           date: string
           excerpt: string
@@ -100,6 +102,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          content?: string | null
           created_at?: string | null
           date?: string
           excerpt?: string
