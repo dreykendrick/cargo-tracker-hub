@@ -1,33 +1,68 @@
 import { Linkedin, Twitter } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
-const team = [
-  {
-    name: "James Mwakasege",
-    role: "Chief Executive Officer",
-    bio: "20+ years experience in logistics and supply chain management across East Africa.",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80",
-  },
-  {
-    name: "Grace Kimaro",
-    role: "Chief Operations Officer",
-    bio: "Expert in port operations and cargo management with 15 years in the industry.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80",
-  },
-  {
-    name: "Hassan Mwenda",
-    role: "Logistics Manager",
-    bio: "Specializes in route optimization and fleet management for timely deliveries.",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
-  },
-  {
-    name: "Amina Rashid",
-    role: "Customer Relations Manager",
-    bio: "Dedicated to ensuring exceptional client experience and satisfaction.",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80",
-  },
-];
+interface TeamMember {
+  id: string;
+  name: string;
+  position: string;
+  image_url: string | null;
+  display_order: number;
+}
 
 export const TeamSection = () => {
+  const [team, setTeam] = useState<TeamMember[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      const { data, error } = await supabase
+        .from("team_members")
+        .select("*")
+        .order("display_order", { ascending: true });
+
+      if (error) {
+        console.error("Error fetching team members:", error);
+      } else {
+        setTeam(data || []);
+      }
+      setIsLoading(false);
+    };
+
+    fetchTeamMembers();
+  }, []);
+  if (isLoading) {
+    return (
+      <section id="team" className="bg-background py-20 md:py-32">
+        <div className="container mx-auto max-w-7xl px-8">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-4xl font-black md:text-5xl">Meet Our Team</h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Dedicated professionals committed to your logistics success
+            </p>
+          </div>
+          <div className="text-center text-muted-foreground">Loading team members...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (team.length === 0) {
+    return (
+      <section id="team" className="bg-background py-20 md:py-32">
+        <div className="container mx-auto max-w-7xl px-8">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-4xl font-black md:text-5xl">Meet Our Team</h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Dedicated professionals committed to your logistics success
+            </p>
+          </div>
+          <div className="text-center text-muted-foreground">No team members yet.</div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="team" className="bg-background py-20 md:py-32">
       <div className="container mx-auto max-w-7xl px-8">
@@ -39,20 +74,21 @@ export const TeamSection = () => {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {team.map((member, index) => (
+          {team.map((member) => (
             <div
-              key={index}
+              key={member.id}
               className="overflow-hidden rounded-3xl bg-card transition-all hover:-translate-y-2 hover:shadow-2xl"
             >
-              <img
-                src={member.image}
-                alt={member.name}
-                className="h-72 w-full object-cover"
-              />
+              {member.image_url && (
+                <img
+                  src={member.image_url}
+                  alt={member.name}
+                  className="h-72 w-full object-cover"
+                />
+              )}
               <div className="p-6 text-center">
                 <h3 className="mb-2 text-xl font-bold">{member.name}</h3>
-                <div className="mb-3 font-semibold text-primary">{member.role}</div>
-                <p className="mb-4 text-sm text-muted-foreground">{member.bio}</p>
+                <div className="mb-3 font-semibold text-primary">{member.position}</div>
                 <div className="flex justify-center gap-3">
                   <a
                     href="#"
