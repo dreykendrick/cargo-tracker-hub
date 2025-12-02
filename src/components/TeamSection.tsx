@@ -6,6 +6,7 @@ interface TeamMember {
   id: string;
   name: string;
   position: string;
+  bio: string | null;
   image_url: string | null;
   display_order: number;
 }
@@ -89,6 +90,9 @@ export const TeamSection = () => {
               <div className="p-6 text-center">
                 <h3 className="mb-2 text-xl font-bold">{member.name}</h3>
                 <div className="mb-3 font-semibold text-primary">{member.position}</div>
+                {member.bio && (
+                  <p className="mb-4 text-sm text-muted-foreground">{member.bio}</p>
+                )}
                 <div className="flex justify-center gap-3">
                   <a
                     href="#"
