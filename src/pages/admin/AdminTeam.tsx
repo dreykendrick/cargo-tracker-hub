@@ -24,6 +24,7 @@ const AdminTeam = () => {
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     position: "",
@@ -109,6 +110,35 @@ const AdminTeam = () => {
     setOpen(true);
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `team-members/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("team-members")
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from("team-members")
+        .getPublicUrl(filePath);
+
+      setFormData({ ...formData, image_url: publicUrl });
+      toast({ title: "Success", description: "Image uploaded successfully" });
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to upload image", variant: "destructive" });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       name: "",
@@ -158,11 +188,21 @@ const AdminTeam = () => {
                   onChange={(e) => setFormData({ ...formData, position: e.target.value })}
                   required
                 />
-                <Input
-                  placeholder="Image URL (optional)"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                />
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Image</label>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={isUploading}
+                  />
+                  <Input
+                    placeholder="Or enter image URL"
+                    value={formData.image_url}
+                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                  />
+                  {isUploading && <p className="text-sm text-muted-foreground">Uploading...</p>}
+                </div>
                 <Input
                   type="number"
                   placeholder="Display Order"
