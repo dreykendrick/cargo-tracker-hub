@@ -13,6 +13,7 @@ interface TeamMember {
   id: string;
   name: string;
   position: string;
+  bio: string | null;
   image_url: string | null;
   display_order: number;
 }
@@ -28,6 +29,7 @@ const AdminTeam = () => {
   const [formData, setFormData] = useState({
     name: "",
     position: "",
+    bio: "",
     image_url: "",
     display_order: 0,
   });
@@ -104,6 +106,7 @@ const AdminTeam = () => {
     setFormData({
       name: member.name,
       position: member.position,
+      bio: member.bio || "",
       image_url: member.image_url || "",
       display_order: member.display_order,
     });
@@ -143,6 +146,7 @@ const AdminTeam = () => {
     setFormData({
       name: "",
       position: "",
+      bio: "",
       image_url: "",
       display_order: 0,
     });
@@ -187,6 +191,12 @@ const AdminTeam = () => {
                   value={formData.position}
                   onChange={(e) => setFormData({ ...formData, position: e.target.value })}
                   required
+                />
+                <textarea
+                  className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  placeholder="Bio (e.g., 20+ years experience in logistics...)"
+                  value={formData.bio}
+                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                 />
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Image</label>
@@ -240,6 +250,9 @@ const AdminTeam = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">{member.position}</p>
+                {member.bio && (
+                  <p className="mt-2 text-sm">{member.bio}</p>
+                )}
                 {member.image_url && (
                   <img src={member.image_url} alt={member.name} className="mt-2 w-full h-32 object-cover rounded" />
                 )}

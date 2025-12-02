@@ -193,6 +193,7 @@ export type Database = {
       }
       team_members: {
         Row: {
+          bio: string | null
           created_at: string | null
           display_order: number
           id: string
@@ -202,6 +203,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          bio?: string | null
           created_at?: string | null
           display_order?: number
           id?: string
@@ -211,6 +213,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          bio?: string | null
           created_at?: string | null
           display_order?: number
           id?: string
