@@ -80,10 +80,10 @@ const Portal = () => {
   ];
 
   const stats = [
-    { icon: Package, label: "Active Shipments", value: "3", color: "text-blue-600" },
-    { icon: Truck, label: "In Transit", value: "2", color: "text-orange-600" },
-    { icon: FileText, label: "Pending Documents", value: "1", color: "text-purple-600" },
-    { icon: Clock, label: "Completed This Month", value: "12", color: "text-green-600" },
+    { icon: Package, label: "Active Shipments", value: "0", color: "text-blue-600" },
+    { icon: Truck, label: "In Transit", value: "0", color: "text-orange-600" },
+    { icon: FileText, label: "Pending Documents", value: "0", color: "text-purple-600" },
+    { icon: Clock, label: "Completed This Month", value: "0", color: "text-green-600" },
   ];
 
   return (
@@ -171,46 +171,10 @@ const Portal = () => {
                 <CardDescription>Track your latest cargo movements</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {[
-                    {
-                      id: "HQ123456",
-                      status: "In Transit",
-                      from: "Dar es Salaam Port",
-                      to: "Dry Port Facility",
-                      eta: "Today, 4:00 PM",
-                    },
-                    {
-                      id: "HQ123455",
-                      status: "Documentation",
-                      from: "Dar es Salaam Port",
-                      to: "Dry Port Facility",
-                      eta: "Tomorrow, 10:00 AM",
-                    },
-                    {
-                      id: "HQ123454",
-                      status: "Ready for Pickup",
-                      from: "Dar es Salaam Port",
-                      to: "Dry Port Facility",
-                      eta: "Completed",
-                    },
-                  ].map((shipment) => (
-                    <div
-                      key={shipment.id}
-                      className="flex items-center justify-between rounded-lg border p-4 hover:bg-muted/50 transition-colors"
-                    >
-                      <div className="space-y-1">
-                        <p className="font-semibold">{shipment.id}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {shipment.from} → {shipment.to}
-                        </p>
-                      </div>
-                      <div className="text-right space-y-1">
-                        <p className="text-sm font-medium text-primary">{shipment.status}</p>
-                        <p className="text-xs text-muted-foreground">{shipment.eta}</p>
-                      </div>
-                    </div>
-                  ))}
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <Package className="h-12 w-12 text-muted-foreground/50 mb-4" />
+                  <p className="text-muted-foreground">No shipments yet</p>
+                  <p className="text-sm text-muted-foreground/70 mt-1">Your shipment history will appear here</p>
                 </div>
               </CardContent>
             </Card>
