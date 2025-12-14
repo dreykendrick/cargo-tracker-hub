@@ -128,38 +128,38 @@ export const JobsSection = () => {
   }
 
   return (
-    <section id="jobs" className="bg-background py-20 md:py-32">
-      <div className="container mx-auto max-w-7xl px-8">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-4xl font-black md:text-5xl">Join Our Team</h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+    <section id="jobs" className="bg-background py-12 sm:py-20 md:py-32">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-8">
+        <div className="mb-8 sm:mb-16 text-center">
+          <h2 className="mb-3 sm:mb-4 text-3xl sm:text-4xl md:text-5xl font-black">Join Our Team</h2>
+          <p className="mx-auto max-w-2xl text-base sm:text-lg text-muted-foreground">
             Explore exciting career opportunities at HQ Logistics
           </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {jobs.map((job) => (
             <div
               key={job.id}
-              className="flex flex-col gap-6 rounded-3xl bg-card p-8 transition-all hover:translate-x-2 hover:shadow-2xl md:flex-row md:items-center md:justify-between"
+              className="flex flex-col gap-4 sm:gap-6 rounded-2xl sm:rounded-3xl bg-card p-5 sm:p-8 transition-all hover:translate-x-1 sm:hover:translate-x-2 hover:shadow-2xl md:flex-row md:items-center md:justify-between"
             >
               <div className="flex-1">
-                <h3 className="mb-3 text-2xl font-bold">{job.title}</h3>
-                <div className="mb-3 flex flex-wrap gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-primary" />
+                <h3 className="mb-2 sm:mb-3 text-xl sm:text-2xl font-bold">{job.title}</h3>
+                <div className="mb-2 sm:mb-3 flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
                     {job.location}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Briefcase className="h-4 w-4 text-primary" />
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <Briefcase className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
                     {job.type}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-primary" />
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
                     {getTimeAgo(job.created_at)}
                   </div>
                 </div>
-                <p className="leading-relaxed text-muted-foreground">{job.description}</p>
+                <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">{job.description}</p>
               </div>
               <Button
                 size="lg"
