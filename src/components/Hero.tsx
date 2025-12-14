@@ -48,31 +48,31 @@ export const Hero = () => {
       />
 
       {/* Content */}
-      <div className="relative z-20 flex h-full flex-col items-center justify-center px-8 text-center">
+      <div className="relative z-20 flex h-full flex-col items-center justify-center px-4 sm:px-8 text-center pt-16 sm:pt-0">
         <div className="mx-auto max-w-4xl">
-          <h1 className="mb-6 text-5xl font-black leading-tight text-white md:text-7xl">
+          <h1 className="mb-4 sm:mb-6 text-3xl sm:text-5xl md:text-7xl font-black leading-tight text-white">
             A Partner You Can Trust
           </h1>
-          <p className="mb-8 text-lg text-white/90 md:text-xl max-w-3xl mx-auto">
+          <p className="mb-6 sm:mb-8 text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto px-2">
             Fast, secure, and efficient cargo transport from Dar es Salaam port to dry
             port. Real-time tracking and professional handling for your peace of mind.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
             <Button
               size="lg"
-              className="gap-2 rounded-xl bg-primary text-base font-semibold shadow-2xl hover:bg-primary-accent"
+              className="gap-2 rounded-xl bg-primary text-sm sm:text-base font-semibold shadow-2xl hover:bg-primary-accent"
               onClick={() => document.getElementById("tracking")?.scrollIntoView({ behavior: "smooth" })}
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-4 w-4 sm:h-5 sm:w-5" />
               Track Cargo
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="gap-2 rounded-xl border-white/30 bg-white/10 text-base font-semibold text-white backdrop-blur-sm hover:bg-white/20"
+              className="gap-2 rounded-xl border-white/30 bg-white/10 text-sm sm:text-base font-semibold text-white backdrop-blur-sm hover:bg-white/20"
               onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
             >
-              <Phone className="h-5 w-5" />
+              <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
               Contact Us
             </Button>
           </div>

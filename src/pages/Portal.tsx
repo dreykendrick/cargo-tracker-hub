@@ -89,34 +89,34 @@ const Portal = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card">
-        <div className="container mx-auto flex items-center justify-between px-8 py-4">
+        <div className="container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 px-4 sm:px-8 py-3 sm:py-4">
           <div>
-            <h1 className="text-2xl font-black">HQ LOGISTICS</h1>
-            <p className="text-sm text-muted-foreground">Client Portal</p>
+            <h1 className="text-xl sm:text-2xl font-black">HQ LOGISTICS</h1>
+            <p className="text-xs sm:text-sm text-muted-foreground">Client Portal</p>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <p className="text-sm font-semibold">{user.email}</p>
+          <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-between sm:justify-end">
+            <div className="text-left sm:text-right">
+              <p className="text-xs sm:text-sm font-semibold truncate max-w-[180px] sm:max-w-none">{user.email}</p>
               {isAdmin && (
                 <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">
                   Admin
                 </span>
               )}
             </div>
-            <Button variant="outline" onClick={signOut} className="gap-2">
+            <Button variant="outline" size="sm" onClick={signOut} className="gap-2">
               <LogOut className="h-4 w-4" />
-              Sign Out
+              <span className="hidden sm:inline">Sign Out</span>
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-8 py-12">
-        <div className="mb-8">
-          <h2 className="text-3xl font-black mb-2">
+      <main className="container mx-auto px-4 sm:px-8 py-6 sm:py-12">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl font-black mb-2">
             Welcome{isAdmin && " Admin"}!
           </h2>
-          <p className="text-muted-foreground">
+          <p className="text-sm sm:text-base text-muted-foreground">
             {isAdmin
               ? "Manage your website content from this dashboard"
               : "Manage your shipments and track cargo in real-time"}

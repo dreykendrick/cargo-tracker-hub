@@ -62,21 +62,21 @@ export const Header = () => {
 
   return (
     <header
-      className={`fixed left-1/2 z-50 w-[calc(100%-40px)] max-w-[1400px] -translate-x-1/2 transition-all duration-400 ${
-        isScrolled ? "top-2.5" : "top-5"
+      className={`fixed left-1/2 z-50 w-[calc(100%-24px)] sm:w-[calc(100%-40px)] max-w-[1400px] -translate-x-1/2 transition-all duration-400 ${
+        isScrolled ? "top-2" : "top-3 sm:top-5"
       }`}
     >
       <div
-        className="rounded-3xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-2xl transition-all"
+        className="rounded-2xl sm:rounded-3xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-2xl transition-all"
         style={{ background: "var(--glass-bg)", borderColor: "var(--glass-border)" }}
       >
-        <nav className="flex items-center justify-between px-6 py-4">
+        <nav className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
           {/* LOGO */}
           <div className="logo">
             <img
               src={logoUrl}
               alt="HQ Logistics"
-              className="h-12 w-auto"
+              className="h-8 sm:h-12 w-auto"
             />
           </div>
 
@@ -106,7 +106,7 @@ export const Header = () => {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="lg:hidden text-white"
+            className="lg:hidden text-white p-1"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
