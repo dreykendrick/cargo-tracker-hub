@@ -1,4 +1,15 @@
+import { useEffect, useState } from "react";
 import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
+interface ContactInfo {
+  id: string;
+  type: string;
+  title: string;
+  content: string;
+  icon_name: string;
+  display_order: number;
+}
 
 const footerLinks = {
   quickLinks: [
@@ -16,6 +27,27 @@ const footerLinks = {
 };
 
 export const Footer = () => {
+  const [contacts, setContacts] = useState<ContactInfo[]>([]);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      const { data, error } = await supabase
+        .from("contact_info")
+        .select("*")
+        .order("display_order", { ascending: true });
+
+      if (!error && data) {
+        setContacts(data);
+      }
+    };
+
+    fetchContacts();
+  }, []);
+
+  const getContactByType = (type: string) => {
+    return contacts.find((c) => c.type === type)?.content || "";
+  };
+
   return (
     <footer className="bg-black py-10 sm:py-16 text-white">
       <div className="container mx-auto max-w-7xl px-4 sm:px-8">
@@ -73,8 +105,9 @@ export const Footer = () => {
           <div>
             <h4 className="mb-3 sm:mb-4 text-sm sm:text-base font-bold text-primary">Contact</h4>
             <ul className="space-y-2 sm:space-y-3 text-sm sm:text-base text-white/70">
-              <li>info@hqlogistics.co.tz</li>
-              <li>Dar es Salaam, Tanzania</li>
+              {getContactByType("phone") && <li>{getContactByType("phone")}</li>}
+              {getContactByType("email") && <li>{getContactByType("email")}</li>}
+              {getContactByType("location") && <li>{getContactByType("location")}</li>}
             </ul>
           </div>
         </div>
